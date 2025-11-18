@@ -1,97 +1,143 @@
-import { useState } from "react";
 import styled from "styled-components";
+import tabela from "../src/assets/image.png";
+import { Briefcase, Activity, BarChart2 } from "react-feather"; // Ícones para um toque de tecnologia
 
-const GlobalContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+// --- Styled Components ---
+
+const DarkBlueTheme = styled.div`
   min-height: 100vh;
-  min-width: 100vw;
-  background-color: #1a202c; /* darkBackground */
-  font-family: "Arial, sans-serif";
+  background-color: #0d111c; /* Fundo Principal - Escuro (quase preto azulado) */
+  color: #c9d1d9; /* Cor do Texto Principal */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 `;
-const LoginBox = styled.div`
-  background-color: #2d3748; /* boxBackground */
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  width: 350px;
-  text-align: center;
-`;
-const Title = styled.h2`
-  font-family: sans-serif;
-  color: #63b3ed; /* titleBlue */
-  margin-bottom: 30px;
-`;
-const InputGroup = styled.div`
-  margin-bottom: 20px;
-`;
-const Input = styled.input`
-  width: calc(100% - 20px);
-  padding: 12px 10px;
-  border-radius: 5px;
-  border: 1px solid #4299e1; /* primaryBlue */
-  background-color: #2d3748; /* boxBackground */
-  color: #cbd5e0; /* lightText */
-  font-size: 16px;
-  outline: none;
 
-  &:focus {
-    border-color: #63b3ed; /* titleBlue */
-    box-shadow: 0 0 0 1px #63b3ed; /* titleBlue */
-  }
+const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #1f6feb; /* Linha de destaque azul vibrante */
+  padding-bottom: 15px;
 `;
-const Button = styled.button`
-  font-family: sans-serif;
-  width: 100%;
-  padding: 12px;
-  border-radius: 5px;
-  border: none;
-  background-color: #4299e1; /* primaryBlue */
-  color: white;
-  font-size: 18px;
-  font-weight: 100;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+
+const Title = styled.h1`
+  font-size: 2.5em;
+  color: #58a6ff; /* Azul claro para o título */
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const PowerBIContainer = styled.div`
+  flex-grow: 1;
+  background-color: #161b22; /* Fundo do container do Power BI - Escuro mais suave */
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.2); /* Sombra azul para efeito tecnológico */
+  padding: 20px;
+  min-height: 600px; /* Altura mínima para o dashboard */
+  overflow: hidden; /* Garante que o conteúdo não vaze */
+`;
+
+const DashboardTitle = styled.h2`
+  font-size: 1.8em;
+  color: #c9d1d9;
+  margin-bottom: 15px;
+  border-left: 4px solid #1f6feb;
+  padding-left: 10px;
+`;
+
+const MetricsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+`;
+
+const MetricCard = styled.div`
+  background-color: #1f2735; /* Fundo dos cards de métricas */
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #1f6feb80; /* Borda sutil azul */
+  transition: transform 0.3s, box-shadow 0.3s;
 
   &:hover {
-    background-color: #3182ce; /* hoverBlue */
-  }
-
-  ${InputGroup}:last-of-type & {
-    margin-top: 10px;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(88, 166, 255, 0.4);
   }
 `;
 
-function App() {
-  const [login, setLogin] = useState("");
-  const [senha, setSenha] = useState("");
+const MetricValue = styled.p`
+  font-size: 2.2em;
+  font-weight: 600;
+  color: #79c0ff; /* Azul para destaque do valor */
+  margin: 5px 0 0;
+`;
 
+const MetricLabel = styled.p`
+  font-size: 0.9em;
+  color: #8b949e;
+  margin: 0;
+`;
+
+// Placeholder para o componente de embed do Power BI (onde o iframe real seria colocado)
+const PowerBIEmbed = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: italic;
+  color: #4a7dff; /* Texto do placeholder */
+  font-size: 1.2em;
+  background-color: #0d111c; /* Fundo interno do embed */
+  border-radius: 6px;
+  /* Simula a área do dashboard real */
+`;
+
+// --- Componente Principal ---
+
+const App = () => {
   return (
-    <GlobalContainer>
-      <LoginBox>
-        <Title>Login</Title>
+    <DarkBlueTheme>
+      <Header>
+        <Title>
+          <BarChart2 size={32} />
+          Dashboard de Mercado (Power BI)
+        </Title>
+        <p>Atualizado em: {new Date().toLocaleDateString("pt-BR")}</p>
+      </Header>
 
-        <InputGroup>
-          <Input
-            type="text"
-            placeholder="Username"
-            onChange={(e) => setLogin(e.target.value)}
-          />
-        </InputGroup>
+      {/* Seção de Métricas Chave */}
+      <MetricsGrid>
+        <MetricCard>
+          <Briefcase size={24} color="#79c0ff" />
+          <MetricValue>R$ 20.488,34</MetricValue>
+          <MetricLabel>Vendas no Mês</MetricLabel>
+        </MetricCard>
+        <MetricCard>
+          <Activity size={24} color="#79c0ff" />
+          <MetricValue>18</MetricValue>
+          <MetricLabel>Compras</MetricLabel>
+        </MetricCard>
+        <MetricCard>
+          <BarChart2 size={24} color="#79c0ff" />
+          <MetricValue>3</MetricValue>
+          <MetricLabel>Notebook X200 Vendidos</MetricLabel>
+        </MetricCard>
+      </MetricsGrid>
 
-        <InputGroup>
-          <Input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setSenha(e.target.value)}
-          />
-        </InputGroup>
-
-        <Button onClick={() => {}}>Entrar</Button>
-      </LoginBox>
-    </GlobalContainer>
+      <PowerBIContainer>
+        <DashboardTitle>Análise Detalhada do Mercado</DashboardTitle>
+        <PowerBIEmbed>
+          <img src={tabela} style={{ width: "100%", height: "100%" }} />
+        </PowerBIEmbed>
+      </PowerBIContainer>
+    </DarkBlueTheme>
   );
-}
+};
 
 export default App;
