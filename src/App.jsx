@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import tabela from "../src/assets/image.png";
-import { Briefcase, Activity, BarChart2 } from "react-feather"; // Ícones para um toque de tecnologia
 
 // --- Styled Components ---
 
@@ -160,8 +158,6 @@ const DataIcon = () => (
 // --- Componente Principal ---
 
 const App = () => {
-  const powerBiEmbedUrl =
-    "https://app.powerbi.com/view?r=eyJrIjoiNzQ4YTFlOTktNDBhYS00NzUyLThjYTUtYmZjZTA3MGFhZDY2IiwidCI6IjI0ODQ1MTI5LWUyNjMtNGU3NC05OTAyLTg3ODk3NTlkZTc2MiIsImMiOjl9";
 
   return (
     <DashboardContainer>
@@ -200,8 +196,8 @@ const App = () => {
             comprado, o preço unitário e o total arrecadado, permitindo análises
             por período, cliente ou tipo de produto.
           </p>
-          <PowerBiIframe src={"../src/assets/imagea.png"}></PowerBiIframe>
-          <PowerBiIframe src={"../src/assets/image.png"}></PowerBiIframe>
+          <PowerBiIframe src={"../imagea.png"}></PowerBiIframe>
+          <PowerBiIframe src={"../image.png"}></PowerBiIframe>
         </SectionCard>
 
         {/* Seção Data Mining - Weka */}
