@@ -4,139 +4,251 @@ import { Briefcase, Activity, BarChart2 } from "react-feather"; // Ícones para 
 
 // --- Styled Components ---
 
-const DarkBlueTheme = styled.div`
-  min-height: 100vh;
-  background-color: #0d111c; /* Fundo Principal - Escuro (quase preto azulado) */
-  color: #c9d1d9; /* Cor do Texto Principal */
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  padding: 30px;
+const DashboardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  min-height: 100vh;
+  background-color: #f0f2f5; /* Light Gray - Fundo principal */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 `;
 
 const Header = styled.header`
+  background-color: #2c3e50; /* Dark Blue Gray - Cabeçalho */
+  color: #ecf0f1; /* Off-white */
+  padding: 20px 40px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #1f6feb; /* Linha de destaque azul vibrante */
-  padding-bottom: 15px;
-`;
 
-const Title = styled.h1`
-  font-size: 2.5em;
-  color: #58a6ff; /* Azul claro para o título */
-  font-weight: 700;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-const PowerBIContainer = styled.div`
-  flex-grow: 1;
-  background-color: #161b22; /* Fundo do container do Power BI - Escuro mais suave */
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(88, 166, 255, 0.2); /* Sombra azul para efeito tecnológico */
-  padding: 20px;
-  min-height: 600px; /* Altura mínima para o dashboard */
-  overflow: hidden; /* Garante que o conteúdo não vaze */
-`;
-
-const DashboardTitle = styled.h2`
-  font-size: 1.8em;
-  color: #c9d1d9;
-  margin-bottom: 15px;
-  border-left: 4px solid #1f6feb;
-  padding-left: 10px;
-`;
-
-const MetricsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-`;
-
-const MetricCard = styled.div`
-  background-color: #1f2735; /* Fundo dos cards de métricas */
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #1f6feb80; /* Borda sutil azul */
-  transition: transform 0.3s, box-shadow 0.3s;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(88, 166, 255, 0.4);
+  h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 500;
   }
 `;
 
-const MetricValue = styled.p`
-  font-size: 2.2em;
-  font-weight: 600;
-  color: #79c0ff; /* Azul para destaque do valor */
-  margin: 5px 0 0;
+const Nav = styled.nav`
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 25px;
+  }
+
+  li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 1.05em;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #3498db; /* Tech Blue - Destaque */
+    }
+  }
 `;
 
-const MetricLabel = styled.p`
-  font-size: 0.9em;
-  color: #8b949e;
-  margin: 0;
+const MainContent = styled.main`
+  flex-grow: 1;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Power BI maior que Weka */
+  gap: 30px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr; /* Coluna única em telas menores */
+  }
 `;
 
-// Placeholder para o componente de embed do Power BI (onde o iframe real seria colocado)
-const PowerBIEmbed = styled.div`
+const SectionCard = styled.section`
+  background-color: #ffffff; /* White - Cartão */
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  border-top: 5px solid ${(props) => props.color || "#3498db"}; /* Borda superior colorida */
+
+  h2 {
+    color: #2c3e50; /* Dark Blue Gray */
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    svg {
+      color: ${(props) => props.color || "#3498db"};
+    }
+  }
+
+  p {
+    line-height: 1.6;
+    color: #555;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    background-color: #f9f9f9;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-left: 4px solid #3498db;
+    border-radius: 4px;
+    font-size: 0.95em;
+    color: #444;
+  }
+`;
+
+const PowerBiIframe = styled.img`
   width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-style: italic;
-  color: #4a7dff; /* Texto do placeholder */
-  font-size: 1.2em;
-  background-color: #0d111c; /* Fundo interno do embed */
+  height: 500px; /* Altura fixa para o dashboard */
+  border: 1px solid #ddd;
   border-radius: 6px;
-  /* Simula a área do dashboard real */
+  background-color: #ecf0f1;
 `;
+
+const Footer = styled.footer`
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9em;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+// --- Ícones (Exemplo, você precisaria de uma biblioteca como react-icons) ---
+const ChartIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+    <line x1="9" y1="12" x2="9" y2="18"></line>
+    <line x1="15" y1="6" x2="15" y2="18"></line>
+  </svg>
+);
+const DataIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+    <polyline points="17 2 12 7 7 2"></polyline>
+  </svg>
+);
 
 // --- Componente Principal ---
 
 const App = () => {
+  const powerBiEmbedUrl =
+    "https://app.powerbi.com/view?r=eyJrIjoiNzQ4YTFlOTktNDBhYS00NzUyLThjYTUtYmZjZTA3MGFhZDY2IiwidCI6IjI0ODQ1MTI5LWUyNjMtNGU3NC05OTAyLTg3ODk3NTlkZTc2MiIsImMiOjl9";
+
   return (
-    <DarkBlueTheme>
+    <DashboardContainer>
       <Header>
-        <Title>
-          <BarChart2 size={32} />
-          Dashboard de Mercado (Power BI)
-        </Title>
-        <p>Atualizado em: {new Date().toLocaleDateString("pt-BR")}</p>
+        <h1>MercadoTech - Admin Dashboard</h1>
+        <Nav>
+          <ul>
+            <li>
+              <a href="#dashboard">Dashboard</a>
+            </li>
+            <li>
+              <a href="#gestao">Gestão CRUD</a>
+            </li>
+            <li>
+              <a href="#analise">Análise OLAP</a>
+            </li>
+            <li>
+              <a href="#datamining">Data Mining</a>
+            </li>
+          </ul>
+        </Nav>
       </Header>
 
-      {/* Seção de Métricas Chave */}
-      <MetricsGrid>
-        <MetricCard>
-          <Briefcase size={24} color="#79c0ff" />
-          <MetricValue>R$ 20.488,34</MetricValue>
-          <MetricLabel>Vendas no Mês</MetricLabel>
-        </MetricCard>
-        <MetricCard>
-          <Activity size={24} color="#79c0ff" />
-          <MetricValue>18</MetricValue>
-          <MetricLabel>Compras</MetricLabel>
-        </MetricCard>
-        <MetricCard>
-          <BarChart2 size={24} color="#79c0ff" />
-          <MetricValue>3</MetricValue>
-          <MetricLabel>Notebook X200 Vendidos</MetricLabel>
-        </MetricCard>
-      </MetricsGrid>
+      <MainContent>
+        {/* Seção Power BI - OLAP */}
+        <SectionCard id="analise" color="#3498db">
+          {" "}
+          {/* Tech Blue */}
+          <h2>
+            <ChartIcon />
+            Análise OLAP (Power BI)
+          </h2>
+          <p>
+            Explore as vendas e o desempenho do produto de forma
+            multidimensional. Este painel exibe a quantidade de cada produto
+            comprado, o preço unitário e o total arrecadado, permitindo análises
+            por período, cliente ou tipo de produto.
+          </p>
+          <PowerBiIframe src="../src/assets/imagea.png"></PowerBiIframe>
+          <PowerBiIframe src="../src/assets/image.png"></PowerBiIframe>
+        </SectionCard>
 
-      <PowerBIContainer>
-        <DashboardTitle>Análise Detalhada do Mercado</DashboardTitle>
-        <PowerBIEmbed>
-          <img src={tabela} style={{ width: "100%", height: "100%" }} />
-        </PowerBIEmbed>
-      </PowerBIContainer>
-    </DarkBlueTheme>
+        {/* Seção Data Mining - Weka */}
+        <SectionCard id="datamining" color="#2ecc71">
+          {" "}
+          {/* Emerald Green */}
+          <h2>
+            <DataIcon />
+            Insights de Data Mining (Weka)
+          </h2>
+          <p>
+            Resultados da aplicação de algoritmos de Data Mining (Weka) para
+            descobrir padrões e previsões. Aqui, um exemplo de "Análise de Cesta
+            de Compras" usando o algoritmo Apriori.
+          </p>
+          <h3>Regras de Associação Encontradas:</h3>
+          <ul>
+            <li>
+              **Regra 1:** Se (Compra: "Tablet Gamma") Então (Compra: "Fone de
+              Ouvido Beta")
+              <br />
+              *Confiança: 85%, Suporte: 0.15*
+            </li>
+            <li>
+              **Regra 2:** Se (Compra: "Notebook X200") Então (Compra: "Câmera
+              Delta")
+              <br />
+              *Confiança: 70%, Suporte: 0.10*
+            </li>
+            <li>
+              **Regra 3:** Se (Compra: "Smartphone Alpha") Então (Compra:
+              "Monitor 24HD")
+              <br />
+              *Confiança: 60%, Suporte: 0.08*
+            </li>
+          </ul>
+          <p>
+            Essas regras ajudam a identificar produtos frequentemente comprados
+            juntos, otimizando estratégias de *cross-selling* e layout da loja.
+          </p>
+        </SectionCard>
+      </MainContent>
+
+      <Footer>
+        © {new Date().getFullYear()} MercadoTech. Todos os direitos reservados.
+      </Footer>
+    </DashboardContainer>
   );
 };
 
