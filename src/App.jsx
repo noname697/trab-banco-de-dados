@@ -200,8 +200,8 @@ const App = () => {
             comprado, o preço unitário e o total arrecadado, permitindo análises
             por período, cliente ou tipo de produto.
           </p>
-          <PowerBiIframe src="../src/assets/imagea.png"></PowerBiIframe>
-          <PowerBiIframe src="../src/assets/image.png"></PowerBiIframe>
+          <PowerBiIframe src={"../src/assets/imagea.png"}></PowerBiIframe>
+          <PowerBiIframe src={"../src/assets/image.png"}></PowerBiIframe>
         </SectionCard>
 
         {/* Seção Data Mining - Weka */}
